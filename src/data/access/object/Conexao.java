@@ -15,7 +15,6 @@ import javax.swing.filechooser.FileSystemView;
  */
 public class Conexao {
 
-
     public static Connection getConexao() throws SQLException, ClassNotFoundException {
 
         FileSystemView fs = FileSystemView.getFileSystemView();
@@ -25,13 +24,13 @@ public class Conexao {
 
         for (File file : roots) {
 
-             Path path = Paths.get(file + "\\CONTROLE LOCAL DIR_CE\\APPS\\App_Data\\Data\\diariodebordo.db");
-           // Path path = Paths.get(caminho);
+            Path path = Paths.get(file + "\\CONTROLE LOCAL DIR_CE\\APPS\\App_Data\\Data\\diariodebordo2.db");
+           //  Path path = Paths.get(caminho);
 
             if (Files.exists(path)) {
 
-                   arquivo = file + "\\CONTROLE LOCAL DIR_CE\\APPS\\App_Data\\Data\\diariodebordo.db";
-              //  arquivo = caminho;
+                arquivo = file + "\\CONTROLE LOCAL DIR_CE\\APPS\\App_Data\\Data\\diariodebordo2.db";
+            //      arquivo = caminho;
 
             }
 

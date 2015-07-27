@@ -18,7 +18,7 @@ import model.Controlador;
  */
 public class DAOControlador {
 
-    public void cadastrar_se(model.Controlador Controlador) {
+    public boolean cadastrar_se(model.Controlador Controlador) {
 
         Connection conn = null;
         Statement stm = null;
@@ -30,8 +30,19 @@ public class DAOControlador {
             stm.executeUpdate("insert into usuarios(nome,mat,cargo,username,senha) values('"
                     + Controlador.getNome() + "','" + Controlador.getMatricula() + "','CONTROLADOR','"
                     + Controlador.getUsername() + "','" + Controlador.getSenha() + "')");
+            return true;
         } catch (SQLException | ClassNotFoundException ex) {
-           JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+
+            if (ex.toString().contains("UNIQUE constraint failed")) {
+
+                JOptionPane.showMessageDialog(null, "Erro: O usuário já possui cadastro!", "Erro", JOptionPane.ERROR_MESSAGE);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+
+            }
+            return false;
+            
         } finally {
 
             try {
@@ -71,7 +82,7 @@ public class DAOControlador {
             }
 
         } catch (SQLException | ClassNotFoundException ex) {
-          JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
             return null;
         } finally {
 
@@ -79,7 +90,7 @@ public class DAOControlador {
                 stm.close();
                 conn.close();
             } catch (SQLException ex) {
-               JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
         }
@@ -109,7 +120,7 @@ public class DAOControlador {
             return controladores;
 
         } catch (SQLException | ClassNotFoundException ex) {
-           JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
             return null;
         } finally {
 
@@ -157,7 +168,7 @@ public class DAOControlador {
                 stm.close();
                 conn.close();
             } catch (SQLException ex) {
-              JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
         }
@@ -183,8 +194,8 @@ public class DAOControlador {
                     + Ocorrencia.getGrave() + "','" + Ocorrencia.getUsername() + "')");
 
         } catch (SQLException | ClassNotFoundException ex) {
-            
-           JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+
+            JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
 
         } finally {
 
@@ -192,7 +203,7 @@ public class DAOControlador {
                 stm.close();
                 conn.close();
             } catch (SQLException ex) {
-              JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Erro:" + ex, "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
         }

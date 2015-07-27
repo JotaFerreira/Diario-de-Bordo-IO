@@ -57,7 +57,7 @@ public class FormCadastro extends javax.swing.JFrame {
 
         senhaTxt2.setName("senhaTxt2"); // NOI18N
 
-        jLabel5.setText("Matrícula RM:");
+        jLabel5.setText("Matrícula RM (4 Dígitos):");
 
         matriculaTxt.setName("matriculaTxt"); // NOI18N
 
@@ -70,7 +70,7 @@ public class FormCadastro extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel6)
                     .addComponent(jLabel1)
@@ -84,7 +84,7 @@ public class FormCadastro extends javax.swing.JFrame {
                     .addComponent(senhaTxt)
                     .addComponent(matriculaTxt)
                     .addComponent(senhaTxt2))
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,14 +123,14 @@ public class FormCadastro extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(125, Short.MAX_VALUE)
+                .addContainerGap(134, Short.MAX_VALUE)
                 .addComponent(cadastrarBtn)
-                .addGap(111, 111, 111))
+                .addGap(128, 128, 128))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,11 +155,11 @@ public class FormCadastro extends javax.swing.JFrame {
 
     private void cadastrarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cadastrarBtnActionPerformed
 
-        String nome = this.nomeTxt.getText();
-        String matricula = this.matriculaTxt.getText();
-        String senha = this.senhaTxt.getText();
-        String senha2 = this.senhaTxt2.getText();
-        String user = this.usuarioTxt.getText();
+        String nome = this.nomeTxt.getText().trim();
+        String matricula = this.matriculaTxt.getText().trim();
+        String senha = this.senhaTxt.getText().trim();
+        String senha2 = this.senhaTxt2.getText().trim();
+        String user = this.usuarioTxt.getText().trim();
 
         if (nome.equals("")) {
 
@@ -199,11 +199,11 @@ public class FormCadastro extends javax.swing.JFrame {
         data.access.object.DAOControlador d = new data.access.object.DAOControlador();
         model.Controlador Controlador = new model.Controlador();
         seguranca.Cypher Cypher = new seguranca.Cypher();
-        String encript = this.senhaTxt.getText();
+        String encript = senha;
 
         try {
 
-            encript = Cypher.encrypt(this.senhaTxt.getText());
+            encript = Cypher.encrypt(senha);
 
         } catch (IllegalBlockSizeException | BadPaddingException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | UnsupportedEncodingException ex) {
             JOptionPane.showMessageDialog(null, ex.toString());
@@ -211,14 +211,17 @@ public class FormCadastro extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex.toString());
         }
 
-        Controlador.setNome(this.nomeTxt.getText());
-        Controlador.setMatricula(Integer.parseInt(this.matriculaTxt.getText()));
+        Controlador.setNome(nome);
+        Controlador.setMatricula(Integer.parseInt(matricula));
         Controlador.setSenha(encript);
-        Controlador.setUsername(this.usuarioTxt.getText());
+        Controlador.setUsername(user);
 
-        d.cadastrar_se(Controlador);
-        JOptionPane.showMessageDialog(null,"Usuário cadastrado com sucesso!");
-        this.dispose();
+        if (d.cadastrar_se(Controlador)) {
+            JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!",
+                    "Confirmação", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        }
+
     }//GEN-LAST:event_cadastrarBtnActionPerformed
 
     public static void main(String args[]) {

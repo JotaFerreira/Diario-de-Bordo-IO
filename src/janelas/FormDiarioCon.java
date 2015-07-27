@@ -1,14 +1,24 @@
 package janelas;
 
+import java.awt.Desktop;
 import java.awt.event.ItemEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import lembrete.ponto.Ponto;
 
 /**
  *
@@ -80,6 +90,7 @@ public class FormDiarioCon extends javax.swing.JFrame {
         diarioTable = new javax.swing.JTable();
         jLabel8 = new javax.swing.JLabel();
         graveCheck = new javax.swing.JCheckBox();
+        relogioLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -148,6 +159,10 @@ public class FormDiarioCon extends javax.swing.JFrame {
 
         jLabel8.setText("Grave:");
 
+        relogioLabel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        relogioLabel.setForeground(new java.awt.Color(204, 0, 51));
+        relogioLabel.setText("Relógio");
+
         jMenu1.setText("Sistema");
 
         jMenuItem1.setText("Sair");
@@ -199,29 +214,28 @@ public class FormDiarioCon extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(recSupCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel5)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(recCooCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel6)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(recGerCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane1)))
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 421, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(graveCheck))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(recSupCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(recCooCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(recGerCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -237,13 +251,17 @@ public class FormDiarioCon extends javax.swing.JFrame {
                                         .addComponent(jLabel3)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(ocorrenciaCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 491, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(relogioLabel)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(relogioLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(periodoCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -275,6 +293,8 @@ public class FormDiarioCon extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    Timer relogio = new Timer();
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
@@ -324,12 +344,16 @@ public class FormDiarioCon extends javax.swing.JFrame {
         String setorTecnico = "";
         String nomeAtendente = "";
         String d = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Calendar.getInstance().getTime());
-
+        int err = 0;
         try {
+            err++;
             setorTecnico = DAOTecnico.getSetor(Tecnico);
+            err++;
             nomeAtendente = DAOControlador.getNome(this.getUsuario());
         } catch (SQLException | ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Erro: " + ex);
+            JOptionPane.showMessageDialog(null, "Erro " + err + " : " + ex);
+            JOptionPane.showMessageDialog(null, "Erro " + err + " : " + ex.getStackTrace());
+
         }
 
         model.OcorrenciaControlador Ocorrencia = new model.OcorrenciaControlador();
@@ -349,26 +373,73 @@ public class FormDiarioCon extends javax.swing.JFrame {
         Ocorrencia.setUsername(this.getUsuario());
 
         try {
+            err++;
             DAOControlador.registrarOcorrencia(Ocorrencia);
+            err++;
             atualizaTecnicosPorSetor();
+            err++;
             atualizaDiario();
             limpar();
         } catch (SQLException | ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Erro: " + ex);
+            JOptionPane.showMessageDialog(null, "Erro " + err + ": " + ex);
+            JOptionPane.showMessageDialog(null, "Erro " + err + " : " + ex.getStackTrace());
         }
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
-        this.setTitle("Diário de Bordo - Usuário: " + this.getUsuario());
+        String sePontoAtivado = Ponto.isAtivado() ? "Ativado" : "Desativado";
+        this.setTitle("Diário de Bordo - Usuário: " + this.getUsuario() + " | Lembrete de Ponto: " + sePontoAtivado);
         atualizaPeriodos();
         atualizaOcorrencias();
         atualizaTecnicosPorSetor();
+
+        final JFrame me = this;
+        relogio.schedule(new TimerTask() {
+            public void run() {
+
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+                Calendar calendar = GregorianCalendar.getInstance();
+                Date d = new Date();
+                calendar.setTime(d);
+                relogioLabel.setText("" + sdf.format(d));
+                String hora = String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY));
+                String minuto = String.format("%02d", calendar.get(Calendar.MINUTE));
+                String segundo = String.format("%02d", calendar.get(Calendar.SECOND));
+                String currentTime = hora + ":" + minuto + ":" + segundo;
+
+                if (Ponto.isAtivado()) {
+
+                    for (String h : Ponto.getHorarios()) {
+
+                        if (currentTime.equals(h + ":00")) {
+
+                            try {
+
+                                Desktop.getDesktop().browse(new URL("http://pontoweb/").toURI());
+                                me.setExtendedState(JFrame.NORMAL);
+                                me.setAlwaysOnTop(true);
+                                JOptionPane.showMessageDialog(me, "LEMBRETE DE PONTO! \r\n Lembrete de Ponto para o horário: "
+                                        + currentTime, "Lembrete de Ponto", JOptionPane.INFORMATION_MESSAGE);
+                                me.setAlwaysOnTop(false);
+
+                            } catch (URISyntaxException | IOException | SecurityException e) {
+                                JOptionPane.showMessageDialog(null, "Erro:" + e);
+
+                            }
+
+                        }
+
+                    }
+                }
+            }
+        }, 1000, 1000);
+
         try {
             atualizaDiario();
         } catch (SQLException | ClassNotFoundException ex) {
-           JOptionPane.showMessageDialog(null,"Erro:" + ex);
+            JOptionPane.showMessageDialog(null, "Erro:" + ex);
         }
 
     }//GEN-LAST:event_formWindowOpened
@@ -390,29 +461,31 @@ public class FormDiarioCon extends javax.swing.JFrame {
     }//GEN-LAST:event_tecnicoCmbItemStateChanged
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        
+
         FormLogin frm = new FormLogin();
         frm.setVisible(true);
+        Ponto.setAtivado(false);
+        relogio.cancel();
         this.dispose();
-        
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-       
+
         atualizaTecnicosPorSetor();
-        
+
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-      
+
         atualizaPeriodos();
-        
+
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-       
+
         atualizaOcorrencias();
-        
+
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void atualizaPeriodos() {
@@ -505,13 +578,13 @@ public class FormDiarioCon extends javax.swing.JFrame {
         }
 
     }
-    
-    private void atualizaDiario() throws SQLException, ClassNotFoundException{
-        
+
+    private void atualizaDiario() throws SQLException, ClassNotFoundException {
+
         data.access.object.DAOOcorrencia DAOOcorrencia = new data.access.object.DAOOcorrencia();
         List ocorrencia = DAOOcorrencia.getOcorrenciaPorControlador(this.getUsuario());
         Object[] colunaNomes = {"UF", "PERIODO", "TECNICO", "SETOR", "OCORRENCIA", "REC_SUP", "REC_COO",
-            "REC_GER", "OBSERVAÇÃO","GRAVE"};
+            "REC_GER", "OBSERVAÇÃO", "GRAVE"};
         DefaultTableModel dados = new DefaultTableModel(new Object[0][0], colunaNomes) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -523,21 +596,21 @@ public class FormDiarioCon extends javax.swing.JFrame {
 
             Map obj = (Map) ocorrencia.get(i);
             Object[] valores = {obj.get("uf"), obj.get("periodo"), obj.get("TECNICO"), obj.get("setor_gra_area"),
-                obj.get("ocorrencias"), obj.get("recorrencia_sup"), obj.get("recorrencia_coord"), obj.get("recorrencia_gerencia"), 
-                obj.get("observacoes"),obj.get("grave")};
+                obj.get("ocorrencias"), obj.get("recorrencia_sup"), obj.get("recorrencia_coord"), obj.get("recorrencia_gerencia"),
+                obj.get("observacoes"), obj.get("grave")};
             dados.addRow(valores);
 
         }
 
         this.diarioTable.setModel(dados);
         this.diarioTable.changeSelection(diarioTable.getRowCount() - 1, 0, false, false);
-      //  int qtdlinhas = this.diarioTable.getRowCount()-1;
-       // this.diarioTable.setRowSelectionInterval(qtdlinhas, qtdlinhas);
-        
+        //  int qtdlinhas = this.diarioTable.getRowCount()-1;
+        // this.diarioTable.setRowSelectionInterval(qtdlinhas, qtdlinhas);
+
     }
-    
-    private void limpar(){
-        
+
+    private void limpar() {
+
         this.periodoCmb.setSelectedIndex(-1);
         this.tecnicoCmb.setSelectedIndex(-1);
         this.ocorrenciaCmb.setSelectedIndex(-1);
@@ -546,7 +619,7 @@ public class FormDiarioCon extends javax.swing.JFrame {
         this.recGerCmb.setSelectedIndex(0);
         this.obsTxt.setText("");
         this.graveCheck.setSelected(false);
-        
+
     }
 
     /**
@@ -611,6 +684,7 @@ public class FormDiarioCon extends javax.swing.JFrame {
     private javax.swing.JComboBox recCooCmb;
     private javax.swing.JComboBox recGerCmb;
     private javax.swing.JComboBox recSupCmb;
+    private javax.swing.JLabel relogioLabel;
     private javax.swing.JComboBox tecnicoCmb;
     // End of variables declaration//GEN-END:variables
 }
