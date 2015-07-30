@@ -4,6 +4,7 @@ import data.access.object.DAOControlador;
 import data.access.object.DAOOcorrencia;
 import data.access.object.DAOSegmento;
 import data.access.object.DAOSupervisor;
+import diario.de.bordo.Versao;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -11,8 +12,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Controlador;
@@ -339,7 +338,8 @@ public class FormDiarioSup extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
-        this.setTitle("Diário de Bordo - Usuário: " + this.getUsuario());
+        Versao vInfo = new Versao();
+        this.setTitle("Diário de Bordo - Usuário: " + this.getUsuario() + " - Build: " + vInfo.getVersion());
 
         atualizaOcorrencias();
 

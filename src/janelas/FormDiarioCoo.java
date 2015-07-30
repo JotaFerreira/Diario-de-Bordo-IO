@@ -4,6 +4,7 @@ import data.access.object.DAOCoordenador;
 import data.access.object.DAOOcorrencia;
 import data.access.object.DAOSegmento;
 import data.access.object.DAOSupervisor;
+import diario.de.bordo.Versao;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -338,7 +339,8 @@ public class FormDiarioCoo extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
-        this.setTitle("Diário de Bordo - Usuário: " + this.getUsuario());
+        Versao vInfo = new Versao();
+        this.setTitle("Diário de Bordo - Usuário: " + this.getUsuario() + " - Build: " + vInfo.getVersion());
 
         atualizaOcorrencias();
 

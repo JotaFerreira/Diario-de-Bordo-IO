@@ -3,13 +3,12 @@ package janelas;
 import data.access.object.DAOControlador;
 import data.access.object.DAOPonto;
 import data.access.object.DAOUsuario;
+import diario.de.bordo.Versao;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import lembrete.ponto.Ponto;
@@ -211,7 +210,7 @@ public class FormLogin extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setText("Horários");
+        jLabel6.setText("Horários (24hrs)");
 
         jLabel7.setText("1º:");
         jLabel7.setToolTipText("");
@@ -305,10 +304,6 @@ public class FormLogin extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel6)
-                .addGap(108, 108, 108))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -393,6 +388,10 @@ public class FormLogin extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(perfilCmb, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(89, 89, 89))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -405,9 +404,9 @@ public class FormLogin extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
                     .addComponent(perfilCmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(hora1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -481,10 +480,12 @@ public class FormLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private boolean iniciado;
-    
+
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
         this.usuarioTxt.setText(System.getProperty("user.name"));
+        Versao vInfo = new Versao();
+        this.setTitle("Diário de Bordo - Build: " + vInfo.getVersion());
         Ponto.setAtivado(false);
 //        try {
 //           // System.out.println(Cypher.encrypt("senha@321"));
@@ -497,7 +498,7 @@ public class FormLogin extends javax.swing.JFrame {
 
         if (pastaRaiz.contains("CONTROLE LOCAL DIR_CE")) {
 
-            JOptionPane.showMessageDialog(null, "Não é permitido executar o programa nesse caminho! \r\n COPIE o arquivo para sua área de trabalho e execute!");
+            JOptionPane.showMessageDialog(this, "Não é permitido executar o programa nesse caminho! \r\n COPIE o arquivo para sua área de trabalho e execute!");
             this.dispose();
 
         } else {
@@ -551,7 +552,7 @@ public class FormLogin extends javax.swing.JFrame {
             }
 
         }
-        
+
         iniciado = true;
 
     }//GEN-LAST:event_formWindowOpened
@@ -762,6 +763,11 @@ public class FormLogin extends javax.swing.JFrame {
 
         if (nmPerfil != null) {
 
+            if (nmPerfil.trim().equals("")) {
+                JOptionPane.showMessageDialog(null, "Nome de Perfil inválido!","Ops!",JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             String h1 = this.hora1.getSelectedItem().toString() + ":" + this.minuto1.getSelectedItem().toString();
             String h2 = this.hora2.getSelectedItem().toString() + ":" + this.minuto2.getSelectedItem().toString();
             String h3 = this.hora3.getSelectedItem().toString() + ":" + this.minuto3.getSelectedItem().toString();
@@ -770,6 +776,14 @@ public class FormLogin extends javax.swing.JFrame {
             String h6 = this.hora6.getSelectedItem().toString() + ":" + this.minuto6.getSelectedItem().toString();
             String h7 = this.hora7.getSelectedItem().toString() + ":" + this.minuto7.getSelectedItem().toString();
             String h8 = this.hora8.getSelectedItem().toString() + ":" + this.minuto8.getSelectedItem().toString();
+            
+            String horarioInvalido = "00:0000:0000:0000:0000:0000:0000:0000:00";
+            String horarioConcatenado = h1 + h2 + h3 + h4 + h5 + h6 + h7 + h8;
+            
+            if(horarioConcatenado.equals(horarioInvalido)){
+                JOptionPane.showMessageDialog(null, "Os horários não podem ser todos zerados!","Ops!",JOptionPane.ERROR_MESSAGE);
+                return;               
+            }
 
             PontoPerfil novoPerfil = new PontoPerfil();
             novoPerfil.setNome(nmPerfil);
@@ -794,21 +808,21 @@ public class FormLogin extends javax.swing.JFrame {
             } catch (Exception e) {
 
                 JOptionPane.showMessageDialog(null, e);
-                
+
             }
 
         }
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void perfilCmbItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_perfilCmbItemStateChanged
-      
-        if(evt.getStateChange() == ItemEvent.SELECTED & iniciado){
-            
+
+        if (evt.getStateChange() == ItemEvent.SELECTED & iniciado) {
+
             String nmPerfil = evt.getItem().toString();
-            
-            if(!nmPerfil.isEmpty()){
-                
+
+            if (!nmPerfil.isEmpty()) {
+
                 ArrayList<PontoPerfil> horarios = new DAOPonto().getHorariosPorPerfil(nmPerfil);
                 String[] h1 = horarios.get(0).getHorario1().split(":");
                 String[] h2 = horarios.get(0).getHorario2().split(":");
@@ -818,7 +832,7 @@ public class FormLogin extends javax.swing.JFrame {
                 String[] h6 = horarios.get(0).getHorario6().split(":");
                 String[] h7 = horarios.get(0).getHorario7().split(":");
                 String[] h8 = horarios.get(0).getHorario8().split(":");
-                
+
                 this.hora1.setSelectedIndex(Integer.parseInt(h1[0]));
                 this.hora2.setSelectedIndex(Integer.parseInt(h2[0]));
                 this.hora3.setSelectedIndex(Integer.parseInt(h3[0]));
@@ -827,7 +841,7 @@ public class FormLogin extends javax.swing.JFrame {
                 this.hora6.setSelectedIndex(Integer.parseInt(h6[0]));
                 this.hora7.setSelectedIndex(Integer.parseInt(h7[0]));
                 this.hora8.setSelectedIndex(Integer.parseInt(h8[0]));
-                
+
                 this.minuto1.setSelectedIndex(Integer.parseInt(h1[1]));
                 this.minuto2.setSelectedIndex(Integer.parseInt(h2[1]));
                 this.minuto3.setSelectedIndex(Integer.parseInt(h3[1]));
@@ -836,11 +850,11 @@ public class FormLogin extends javax.swing.JFrame {
                 this.minuto6.setSelectedIndex(Integer.parseInt(h6[1]));
                 this.minuto7.setSelectedIndex(Integer.parseInt(h7[1]));
                 this.minuto8.setSelectedIndex(Integer.parseInt(h8[1]));
-                
+
             }
-            
+
         }
-        
+
     }//GEN-LAST:event_perfilCmbItemStateChanged
 
     void senhas() throws Exception {

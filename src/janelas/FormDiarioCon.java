@@ -1,5 +1,6 @@
 package janelas;
 
+import diario.de.bordo.Versao;
 import java.awt.Desktop;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
@@ -390,7 +391,9 @@ public class FormDiarioCon extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
 
         String sePontoAtivado = Ponto.isAtivado() ? "Ativado" : "Desativado";
-        this.setTitle("Diário de Bordo - Usuário: " + this.getUsuario() + " | Lembrete de Ponto: " + sePontoAtivado);
+        Versao vInfo = new Versao();
+        this.setTitle("Diário de Bordo - Usuário: " + this.getUsuario() + " | Lembrete de Ponto: " + sePontoAtivado
+                + " - Build: " + vInfo.getVersion());
         atualizaPeriodos();
         atualizaOcorrencias();
         atualizaTecnicosPorSetor();
