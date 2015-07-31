@@ -1,7 +1,7 @@
 
 package diario.de.bordo;
 
-import janelas.FormLogin;
+import br.com.rmdiariodebordo.view.FormLogin;
 
 public class DiarioDeBordo {
 
